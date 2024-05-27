@@ -91,6 +91,8 @@
     padding: 10px;
     margin: 10px;
     box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.9); /* Default background color */
+    border-radius: 5px;
   }
 
   @media only screen and (max-width: 768px) {
@@ -122,6 +124,22 @@
   }
   function closeSearchOverlay() {
     document.getElementById("searchOverlay").style.display = "none";
+  }
+
+  // Generate random color for each search result block
+  var searchResults = document.querySelectorAll('.gsc-webResult.gsc-result');
+  searchResults.forEach(function(result) {
+    var randomColor = getRandomColor();
+    result.style.backgroundColor = randomColor;
+  });
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 </script>
 </body>
