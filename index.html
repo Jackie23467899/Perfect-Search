@@ -14,15 +14,30 @@
     align-items: center;
     height: 100vh;
     margin: 0;
+    transition: background-image 0.5s ease;
   }
   .input-container {
     text-align: center;
     position: relative;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .input-container.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .search-heading {
     font-size: 24px;
     color: #ffffff;
     margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .search-heading.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .gsc-input-box {
     width: 300px;
@@ -33,10 +48,17 @@
     outline: none;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 123, 255, 0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
   .gsc-input-box:hover, .gsc-input-box:focus {
     border-color: #0056b3;
     box-shadow: 0 4px 6px rgba(0, 86, 179, 0.2);
+  }
+  .gsc-input-box.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .gsc-search-button {
     background-color: #007bff !important;
@@ -48,10 +70,17 @@
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 6px rgba(0, 123, 255, 0.1) !important;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
   .gsc-search-button:hover {
     background-color: #0056b3 !important;
     box-shadow: 0 4px 6px rgba(0, 86, 179, 0.2) !important;
+  }
+  .gsc-search-button.show {
+    opacity: 1;
+    transform: translateY(0);
   }
   .search-overlay {
     position: fixed;
@@ -100,6 +129,60 @@
       width: calc(100% - 20px); /* Adjusted width with gap for smaller screens */
     }
   }
+
+  /* Button for shortcut */
+  .shortcut-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: help;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .shortcut-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 86, 179, 0.2);
+  }
+  .shortcut-button:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .shortcut-button:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
 </style>
 </head>
 <body>
@@ -115,6 +198,13 @@
     </div>
   </div>
 </div>
+
+<!-- Shortcut button -->
+<button class="shortcut-button" onclick="goBack()" onmouseover="showTooltip()" onmouseout="hideTooltip()">
+  B
+  <span class="tooltip">Ctrl + B can go back to the previous page</span>
+</button>
+
 <script async src="https://cse.google.com/cse.js?cx=f495e3dc9ce344c29"></script>
 <script>
   function performSearchOverlay() {
@@ -122,25 +212,60 @@
     google.search.cse.element.getElement('searchresults-only').execute(query);
     document.getElementById("searchOverlay").style.display = "none";
   }
+
   function closeSearchOverlay() {
     document.getElementById("searchOverlay").style.display = "none";
   }
 
-  // Generate random color for each search result block
-  var searchResults = document.querySelectorAll('.gsc-webResult.gsc-result');
-  searchResults.forEach(function(result) {
-    var randomColor = getRandomColor();
-    result.style.backgroundColor = randomColor;
-  });
-
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  function goBack() {
+    window.history.back();
   }
+
+  function showTooltip() {
+    var tooltip = document.querySelector('.tooltip');
+    tooltip.style.opacity = '1';
+    tooltip.style.visibility = 'visible';
+    tooltip.style.transform = 'translateY(-10px)';
+  }
+
+  function hideTooltip() {
+    var tooltip = document.querySelector('.tooltip');
+    tooltip.style.opacity = '0';
+    tooltip.style.visibility = 'hidden';
+    tooltip.style.transform = 'translateY(0)';
+  }
+
+  // Generate random color for each search result block
+  function setRandomColors() {
+    var searchResults = document.querySelectorAll('.gsc-webResult.gsc-result');
+    searchResults.forEach(function(result) {
+      var randomColor = getRandomOffWhiteColor();
+      result.style.backgroundColor = randomColor;
+    });
+  }
+
+  function getRandomOffWhiteColor() {
+    var colors = ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8', '#e0e0e0'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  window.onload = function() {
+    setRandomColors();
+    setTimeout(function() {
+      document.querySelector('.input-container').classList.add('show');
+      document.querySelector('.search-heading').classList.add('show');
+      document.querySelector('.gsc-input-box').classList.add('show');
+      document.querySelector('.gsc-search-button').classList.add('show');
+      document.querySelector('.shortcut-button').style.opacity = '1';
+      document.querySelector('.shortcut-button').style.transform = 'scale(1)';
+    }, 500);
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'b') {
+      goBack();
+    }
+  });
 </script>
 </body>
 </html>
