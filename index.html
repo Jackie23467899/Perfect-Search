@@ -8,7 +8,7 @@
 <style>
   body {
     font-family: 'Poppins', sans-serif;
-    background-image: url('https://source.unsplash.com/random/1920x1080?landscape'); /* Placeholder */
+    background-image: url('https://source.unsplash.com/random/1920x1080?landscape'); /* Random landscape image */
     background-size: cover;
     background-position: center;
     display: flex;
@@ -75,7 +75,6 @@
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    position: relative;
     display: none;
   }
   .gsc-search-button:hover {
@@ -120,6 +119,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 80%;
     max-width: 400px;
+    position: relative;
   }
   .close-button {
     position: absolute;
@@ -232,7 +232,7 @@
   <div class="search-overlay" id="searchOverlay">
     <div class="search-box">
       <button class="close-button" onclick="closeSearchOverlay()">X</button>
-             <input type="text" id="searchInputOverlay" class="gsc-input-box" placeholder="Enter text..." aria-label="Input">
+      <input type="text" id="searchInputOverlay" class="gsc-input-box" placeholder="Enter text..." aria-label="Input">
       <button class="gsc-search-button" onclick="performSearchOverlay()">
         <div class="gsc-search-button-icon"></div>
       </button>
@@ -240,82 +240,32 @@
   </div>
 </div>
 
-<!-- Shortcut button -->
-<button class="shortcut-button" onclick="goBack()" onmouseover="showTooltip()" onmouseout="hideTooltip()">
-  B
-  <span class="tooltip">Ctrl + B can go back to the previous page</span>
-</button>
-
-<script async src="https://cse.google.com/cse.js?cx=f495e3dc9ce344c29"></script>
 <script>
-  function performSearchOverlay() {
-    var query = document.getElementById("searchInputOverlay").value;
-    google.search.cse.element.getElement("searchOverlay").execute(query);
+  // Function to open the search overlay
+  function openSearchOverlay() {
+    document.getElementById('searchOverlay').style.display = 'flex';
   }
 
+  // Function to close the search overlay
   function closeSearchOverlay() {
-    document.getElementById("searchOverlay").style.display = "none";
+    document.getElementById('searchOverlay').style.display = 'none';
   }
 
-  function showTooltip() {
-    document.querySelector('.tooltip').style.opacity = '1';
-    document.querySelector('.tooltip').style.visibility = 'visible';
+  // Function to perform search on overlay
+  function performSearchOverlay() {
+    var query = document.getElementById('searchInputOverlay').value;
+    window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
   }
 
-  function hideTooltip() {
-    document.querySelector('.tooltip').style.opacity = '0';
-    document.querySelector('.tooltip').style.visibility = 'hidden';
-  }
-
-  function goBack() {
-    window.history.back();
-  }
-
-  function setRandomLandscapeImage() {
-    var imgUrl = 'https://source.unsplash.com/random/1920x1080?landscape';
-    document.body.style.backgroundImage = 'url(' + imgUrl + ')';
-  }
-
-  // Initialize animation and random background image
+  // Example of showing input-container after a delay
   window.onload = function() {
     setTimeout(function() {
       document.querySelector('.input-container').classList.add('show');
       document.querySelector('.search-heading').classList.add('show');
       document.querySelector('.gsc-input-box').classList.add('show');
       document.querySelector('.gsc-search-button').classList.add('show');
-      document.querySelector('.shortcut-button').style.opacity = '1';
-      document.querySelector('.shortcut-button').style.transform = 'scale(1)';
     }, 500);
-
-    setRandomLandscapeImage();
   };
-
-  // Monitor search results and set random colors when new results are loaded
-  document.addEventListener('DOMNodeInserted', function() {
-    setRandomColors();
-  });
-
-  // Add keydown event listener to detect Ctrl + B
-  window.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.key === 'b') {
-      event.preventDefault(); // Prevent default behavior (e.g., browser bookmarks)
-      goBack();
-    }
-  });
-
-  function setRandomColors() {
-    var results = document.querySelectorAll('.gsc-webResult');
-    results.forEach(function(result) {
-      var randomColor = getRandomOffWhiteColor();
-      result.style.backgroundColor = randomColor;
-    });
-  }
-
-  function getRandomOffWhiteColor() {
-    var colors = ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8', '#e0e0e0'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
 </script>
 </body>
 </html>
-
