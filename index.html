@@ -8,7 +8,9 @@
 <style>
   body {
     font-family: 'Poppins', sans-serif;
-    background-image: url(General-1722617471316.jpg);
+    background-image: url('https://source.unsplash.com/random/1920x1080?landscape'); /* Placeholder */
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -229,8 +231,8 @@
   <div class="gcse-searchresults-only" data-linkTarget="_blank"></div>
   <div class="search-overlay" id="searchOverlay">
     <div class="search-box">
-            <button class="close-button" onclick="closeSearchOverlay()">X</button>
-      <input type="text" id="searchInputOverlay" class="gsc-input-box" placeholder="Enter text..." aria-label="Input">
+      <button class="close-button" onclick="closeSearchOverlay()">X</button>
+             <input type="text" id="searchInputOverlay" class="gsc-input-box" placeholder="Enter text..." aria-label="Input">
       <button class="gsc-search-button" onclick="performSearchOverlay()">
         <div class="gsc-search-button-icon"></div>
       </button>
@@ -269,20 +271,12 @@
     window.history.back();
   }
 
-  function setRandomColors() {
-    var results = document.querySelectorAll('.gsc-webResult');
-    results.forEach(function(result) {
-      var randomColor = getRandomOffWhiteColor();
-      result.style.backgroundColor = randomColor;
-    });
+  function setRandomLandscapeImage() {
+    var imgUrl = 'https://source.unsplash.com/random/1920x1080?landscape';
+    document.body.style.backgroundImage = 'url(' + imgUrl + ')';
   }
 
-  function getRandomOffWhiteColor() {
-    var colors = ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8', '#e0e0e0'];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-
-  // Initialize animation and random colors
+  // Initialize animation and random background image
   window.onload = function() {
     setTimeout(function() {
       document.querySelector('.input-container').classList.add('show');
@@ -293,7 +287,7 @@
       document.querySelector('.shortcut-button').style.transform = 'scale(1)';
     }, 500);
 
-    setRandomColors();
+    setRandomLandscapeImage();
   };
 
   // Monitor search results and set random colors when new results are loaded
@@ -308,6 +302,19 @@
       goBack();
     }
   });
+
+  function setRandomColors() {
+    var results = document.querySelectorAll('.gsc-webResult');
+    results.forEach(function(result) {
+      var randomColor = getRandomOffWhiteColor();
+      result.style.backgroundColor = randomColor;
+    });
+  }
+
+  function getRandomOffWhiteColor() {
+    var colors = ['#ffffff', '#f8f8f8', '#f0f0f0', '#e8e8e8', '#e0e0e0'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
 </script>
 </body>
 </html>
