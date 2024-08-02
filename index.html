@@ -229,7 +229,7 @@
   <div class="gcse-searchresults-only" data-linkTarget="_blank"></div>
   <div class="search-overlay" id="searchOverlay">
     <div class="search-box">
-      <button class="close-button" onclick="closeSearchOverlay()">X</button>
+            <button class="close-button" onclick="closeSearchOverlay()">X</button>
       <input type="text" id="searchInputOverlay" class="gsc-input-box" placeholder="Enter text..." aria-label="Input">
       <button class="gsc-search-button" onclick="performSearchOverlay()">
         <div class="gsc-search-button-icon"></div>
@@ -300,6 +300,15 @@
   document.addEventListener('DOMNodeInserted', function() {
     setRandomColors();
   });
+
+  // Add keydown event listener to detect Ctrl + B
+  window.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.key === 'b') {
+      event.preventDefault(); // Prevent default behavior (e.g., browser bookmarks)
+      goBack();
+    }
+  });
 </script>
 </body>
 </html>
+
